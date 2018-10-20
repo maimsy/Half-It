@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Halfit.Generation;
 
 public class GenerateMesh : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GenerateMesh : MonoBehaviour
 
     private void OnValidate()
     {
-        UpdateMesh();
+        //UpdateMesh();
     }
 
     private void UpdateMesh()
