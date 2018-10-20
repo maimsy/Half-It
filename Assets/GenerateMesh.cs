@@ -14,7 +14,7 @@ public class GenerateMesh : MonoBehaviour
 
     private void OnValidate()
     {
-        //UpdateMesh();
+        UpdateMesh();
     }
 
     private void UpdateMesh()
