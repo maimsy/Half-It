@@ -8,11 +8,15 @@ public class SliceTest : MonoBehaviour
 {
     [SerializeField] private GameObject _objectToSlice;
     private List<GameObject> _slices = new List<GameObject>();
+    private Vector3? _mouseDownPos;
+    private GenerateMesh _generateMesh;
+    private CutTimer _cutTimer;
 
     private void Start()
     {
-        _slices = new List<GameObject>();
-        _slices.Add(_objectToSlice);
+        _generateMesh = FindObjectOfType<GenerateMesh>();
+        _cutTimer = FindObjectOfType<CutTimer>();
+        _slices = new List<GameObject> { _generateMesh.gameObject };
     }
 
     [Button]
@@ -23,8 +27,7 @@ public class SliceTest : MonoBehaviour
         slices[0].transform.position += gameObject.transform.up * 0.1f;
         slices[1].transform.position -= gameObject.transform.up * 0.1f;
     }
-
-    private Vector3? _mouseDownPos;
+    
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -48,7 +51,6 @@ public class SliceTest : MonoBehaviour
             print(_mouseDownPos +  " "  + mousePos);
             Debug.DrawLine(mouseDownPos, mousePos, Color.red, 2f);
 
-
             for (var i = _slices.Count - 1; i >= 0; i--)
             {
                 GameObject slice = _slices[i];
@@ -64,14 +66,45 @@ public class SliceTest : MonoBehaviour
 
                 _mouseDownPos = null;
             }
+
+            Update_DidSlice();
         }
+    }
+
+    private void Update_DidSlice()
+    {
+        // TODO: Calculate area at this time
+        if (_slices.Count > 1) StartCoroutine(Reset());
+    }
+
+    private IEnumerator Reset()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        for (var i = _slices.Count - 1; i >= 0; i--)
+        {
+            GameObject slice = _slices[i];
+            DestroySlice(slice);
+        }
+        _generateMesh.Generate();
+        _slices.Clear();
+        _slices.Add(_generateMesh.gameObject);
+
+        _cutTimer.Reset();
     }
 
     private void DestroySlice(GameObject slice)
     {
-        print("DESTROY " + slice.name);
         _slices.Remove(slice);
-        Destroy(slice);
+
+        if (slice == _generateMesh.gameObject)
+        {
+            slice.gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(slice);
+        }
     }
 
     /**

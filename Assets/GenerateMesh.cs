@@ -41,4 +41,10 @@ public class GenerateMesh : MonoBehaviour
         MeshFilter filter = GetComponent<MeshFilter>();
         filter.mesh = msh;
     }
+
+    public void Generate()
+    {
+        gameObject.SetActive(true);
+        UpdateMesh();
+    }
 }
