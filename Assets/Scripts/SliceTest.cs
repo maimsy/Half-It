@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using EzySlice;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SliceTest : MonoBehaviour
 {
+
+    public Text Area1;
+    public Text Area2;
+
+
     [SerializeField] private GameObject _objectToSlice;
     private List<GameObject> _slices = new List<GameObject>();
     private Vector3? _mouseDownPos;
@@ -73,8 +79,50 @@ public class SliceTest : MonoBehaviour
 
     private void Update_DidSlice()
     {
-        // TODO: Calculate area at this time
-        if (_slices.Count > 1) StartCoroutine(Reset());
+
+        if (_slices.Count > 1)
+        { 
+            //area1
+            List<Vector3> vertices = new List<Vector3>(_slices[0].GetComponent<MeshFilter>().mesh.vertices);
+            float area1 = SuperficieIrregularPolygon(vertices);
+            area1 = Mathf.Round(area1 * 100f) / 100f;
+            Area1.text = "Area1: " + area1;
+
+            //area2
+            vertices = new List<Vector3>(_slices[1].GetComponent<MeshFilter>().mesh.vertices);
+            float area2 = SuperficieIrregularPolygon(vertices);
+            area2 = Mathf.Round(area2 * 100f) / 100f;
+            Area2.text = "Area2: " + area2;
+
+            //TODO If areas are 50/50 then reset
+            //else GAMEOVER
+            //if(area1 == area2) { 
+            StartCoroutine(Reset());
+            //}
+        }
+    }
+
+    float SuperficieIrregularPolygon(List<Vector3> list)
+    {
+        float temp = 0;
+        int i = 0;
+        for (; i < list.Count; i++)
+        {
+            if (i != list.Count - 1)
+            {
+                float mulA = list[i].x * list[i + 1].y;
+                float mulB = list[i + 1].x * list[i].y;
+                temp = temp + (mulA - mulB);
+            }
+            else
+            {
+                float mulA = list[i].x * list[0].y;
+                float mulB = list[0].x * list[i].y;
+                temp = temp + (mulA - mulB);
+            }
+        }
+        temp *= 0.5f;
+        return Mathf.Abs(temp);
     }
 
     private IEnumerator Reset()
