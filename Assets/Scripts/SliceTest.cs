@@ -93,11 +93,14 @@ public class SliceTest : MonoBehaviour
             area2 = Mathf.Round(area2 * 100f) / 100f;
             Area2.text = "Area2: " + area2;
 
-            //TODO If areas are 50/50 then reset
-            //else GAMEOVER
-            //if(area1 == area2) { 
-            StartCoroutine(Reset());
-            //}
+            if (Mathf.Abs(area1 - area2) <= 0.3f)
+            {
+                StartCoroutine(Reset());
+            }
+            else
+            {
+                _cutTimer.LoseGame();
+            }
         }
     }
 

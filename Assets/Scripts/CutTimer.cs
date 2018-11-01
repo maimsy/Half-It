@@ -42,7 +42,7 @@ public class CutTimer : MonoBehaviour
         _timeScale = 1f;
     }
 
-    private void LoseGame()
+    public void LoseGame()
     {
         print("LOST GAME");
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
