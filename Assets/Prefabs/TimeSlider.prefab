@@ -69,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224927186426205094}
   - component: {fileID: 114882159820791138}
+  - component: {fileID: 114435693914317736}
   m_Layer: 5
   m_Name: TimeSlider
   m_TagString: Untagged
@@ -103,6 +104,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114435693914317736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1947643945218564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90508cb3d3417df4e99325ac2472774c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startTime: 4
+  _percentageOfPrevTime: 0.95
 --- !u!114 &114882159820791138
 MonoBehaviour:
   m_ObjectHideFlags: 1

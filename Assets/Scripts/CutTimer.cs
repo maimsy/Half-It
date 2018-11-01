@@ -7,8 +7,8 @@ public class CutTimer : MonoBehaviour
 {
     [SerializeField] private float _startTime = 4f;
     [SerializeField]
-    [Range(0, 1)]
     private float _percentageOfPrevTime = 0.99f;
+    private float _timeScale = 1f;
 
     private float _timeLeft;
     private Slider _slider;
@@ -23,13 +23,23 @@ public class CutTimer : MonoBehaviour
 
     private void Update()
     {
-        _timeLeft -= Time.deltaTime;
+        _timeLeft -= Time.deltaTime * _timeScale;
         _slider.value = _timeLeft / _startTime;
 
         if (_timeLeft <= 0f)
         {
             LoseGame();
         }
+    }
+
+    public void Pause()
+    {
+        _timeScale = 0f;
+    }
+
+    public void Unpause()
+    {
+        _timeScale = 1f;
     }
 
     private void LoseGame()
@@ -40,6 +50,8 @@ public class CutTimer : MonoBehaviour
 
     public void Reset()
     {
+        _startTime *= _percentageOfPrevTime;
         _timeLeft = _startTime;
+        print(_timeLeft);
     }
 }

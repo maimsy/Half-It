@@ -11,7 +11,6 @@ public class SliceTest : MonoBehaviour
     public Text Area1;
     public Text Area2;
 
-
     [SerializeField] private GameObject _objectToSlice;
     private List<GameObject> _slices = new List<GameObject>();
     private Vector3? _mouseDownPos;
@@ -33,10 +32,10 @@ public class SliceTest : MonoBehaviour
         slices[0].transform.position += gameObject.transform.up * 0.1f;
         slices[1].transform.position -= gameObject.transform.up * 0.1f;
     }
-    
+
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             _mouseDownPos = Input.mousePosition;
         }
@@ -54,7 +53,7 @@ public class SliceTest : MonoBehaviour
             var betweenVec = mousePos - mouseDownPos;
             var normal = Quaternion.AngleAxis(90f, Vector3.forward) * betweenVec;
 
-            print(_mouseDownPos +  " "  + mousePos);
+            print(_mouseDownPos + " " + mousePos);
             Debug.DrawLine(mouseDownPos, mousePos, Color.red, 2f);
 
             for (var i = _slices.Count - 1; i >= 0; i--)
@@ -81,7 +80,7 @@ public class SliceTest : MonoBehaviour
     {
 
         if (_slices.Count > 1)
-        { 
+        {
             //area1
             List<Vector3> vertices = new List<Vector3>(_slices[0].GetComponent<MeshFilter>().mesh.vertices);
             float area1 = SuperficieIrregularPolygon(vertices);
@@ -127,6 +126,7 @@ public class SliceTest : MonoBehaviour
 
     private IEnumerator Reset()
     {
+        _cutTimer.Pause();
         yield return new WaitForSecondsRealtime(1f);
 
         for (var i = _slices.Count - 1; i >= 0; i--)
@@ -138,6 +138,7 @@ public class SliceTest : MonoBehaviour
         _slices.Clear();
         _slices.Add(_generateMesh.gameObject);
 
+        _cutTimer.Unpause();
         _cutTimer.Reset();
     }
 
