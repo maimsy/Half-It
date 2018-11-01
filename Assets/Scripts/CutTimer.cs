@@ -25,6 +25,17 @@ public class CutTimer : MonoBehaviour
     {
         _timeLeft -= Time.deltaTime;
         _slider.value = _timeLeft / _startTime;
+
+        if (_timeLeft <= 0f)
+        {
+            LoseGame();
+        }
+    }
+
+    private void LoseGame()
+    {
+        print("LOST GAME");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     public void Reset()
